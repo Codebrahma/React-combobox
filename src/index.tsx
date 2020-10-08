@@ -30,6 +30,10 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
 }) => {
   const suggestions: string[] = data
   const optionMaxHeight = optionsListMaxHeight || 200
+  let suggestionListPositionStyles: any = {
+    top: '100%',
+    marginTop: '5px'
+  }
 
   const [isFocus, setIsFocus] = useState(false)
   const [inputValue, setInputValue] = useState(defaultValue || '')
@@ -38,6 +42,20 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   const suggestionRef = useRef(null)
   const optionRef = useRef(null)
   const inputRef = useRef(null)
+
+  // Determine the position(top or bottom) where the suggestion list to be showed
+  const suggestCurrentObject: any = suggestionRef.current
+
+  const suggestionListPosition =
+    suggestCurrentObject?.offsetWidth +
+    suggestCurrentObject?.offsetParent.offsetTop
+
+  if (suggestionListPosition > window.innerHeight) {
+    suggestionListPositionStyles = {
+      bottom: '100%',
+      marginBottom: '5px'
+    }
+  }
 
   const updateValue = (index: number = currentFocus) => {
     if (index !== -1) {
@@ -165,7 +183,8 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
         className={styles.comboBoxPopover}
         style={{
           opacity: isFocus ? 1 : 0,
-          visibility: isFocus ? 'visible' : 'hidden'
+          visibility: isFocus ? 'visible' : 'hidden',
+          ...suggestionListPositionStyles
         }}
         ref={suggestionRef}
       >
