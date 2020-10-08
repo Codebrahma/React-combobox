@@ -57,6 +57,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   )
   const [state, dispatch] = useReducer(focusReducer, initialState)
   const { isFocus, focusIndex } = state
+  const [isMouseInsideOptions, setIsMouseInsideOptions] = useState(false)
 
   const comboBoxRef = useRef(null)
   const optionRef = useRef(null)
@@ -76,34 +77,14 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
     }
   }
 
-  // close the suggestion list if the user click outside other than input and suggestion-list
-  const handleClickOutside = (event: any) => {
-    const inputCurrentObject: any = inputRef.current
-    const suggestionCurrentObject: any = comboBoxRef.current
-    if (
-      inputCurrentObject &&
-      suggestionCurrentObject &&
-      !inputCurrentObject.contains(event.target) &&
-      !suggestionCurrentObject.contains(event.target)
-    ) {
-      dispatch({ type: 'toggleFocus', isFocus: false })
-    }
-  }
-
   // Set the default index when the component is mounted
   useEffect(() => {
     dispatch({ type: 'setFocusIndex', focusIndex: getDefaultIndex() })
   }, [])
 
-  useEffect(() => {
-    document.addEventListener('mousedown', (event) => handleClickOutside(event))
-
-    return () => {
-      document.removeEventListener('mousedown', (event) =>
-        handleClickOutside(event)
-      )
-    }
-  })
+  const blurHandler = () => {
+    if (!isMouseInsideOptions) dispatch({ type: 'toggleFocus', isFocus: false })
+  }
 
   const updateValue = (index: number = focusIndex) => {
     if (index !== -1) {
@@ -215,6 +196,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
         onKeyDown={keyHandler}
         value={inputValue}
         className={styles.comboBoxInput}
+        onBlur={blurHandler}
       />
 
       <div
@@ -225,6 +207,8 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
           ...suggestionListPositionStyles
         }}
         ref={comboBoxRef}
+        onMouseEnter={() => setIsMouseInsideOptions(true)}
+        onMouseLeave={() => setIsMouseInsideOptions(false)}
       >
         <div
           className={styles.comboBoxList}
