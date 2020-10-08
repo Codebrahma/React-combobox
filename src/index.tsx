@@ -3,13 +3,13 @@ import styles from './styles.module.css'
 
 type ComboBoxProps = {
   data: string[]
-  onChange?: any
-  defaultValue?: any
+  onChange?: Function
+  defaultValue?: string
   placeholder?: string
-  onSelect?: any
-  onOptionsChange?: any
+  onSelect?: Function
+  onOptionsChange?: Function
   optionsListMaxHeight?: number
-  renderOptions?: any
+  renderOptions?: Function
 }
 
 const UP_ARROW = 38
