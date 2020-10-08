@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useReducer } from 'react'
+
+import { initialState, focusReducer } from './reducer/focusReducer'
 import styles from './index.css'
 
 type ComboBoxProps = {
@@ -42,9 +44,9 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   }
 
   const [options, setOptions] = useState<string[]>(comboBoxOptions)
-  const [isFocus, setIsFocus] = useState(false)
   const [inputValue, setInputValue] = useState(defaultValue || '')
-  const [currentFocus, setCurrentFocus] = useState(-1)
+  const [state, dispatch] = useReducer(focusReducer, initialState)
+  const { isFocus, focusIndex } = state
 
   const comboBoxRef = useRef(null)
   const optionRef = useRef(null)
@@ -74,7 +76,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
       !inputCurrentObject.contains(event.target) &&
       !suggestionCurrentObject.contains(event.target)
     ) {
-      setIsFocus(false)
+      dispatch({ type: 'toggleFocus', isFocus: false })
     }
   }
 
@@ -88,7 +90,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
     }
   })
 
-  const updateValue = (index: number = currentFocus) => {
+  const updateValue = (index: number = focusIndex) => {
     if (index !== -1) {
       setInputValue(options[index])
       if (onOptionsChange) onOptionsChange(options[index])
@@ -97,8 +99,9 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
 
   const selectSuggestionHandler = () => {
     updateValue()
-    setIsFocus(false)
-    if (onSelect) onSelect(options[currentFocus])
+    dispatch({ type: 'toggleFocus', isFocus: false })
+
+    if (onSelect) onSelect(options[focusIndex])
   }
 
   const keyHandler = (event: any) => {
@@ -108,18 +111,18 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
     switch (event.keyCode) {
       case DOWN_ARROW: {
         // set the focus to true if the options list was not opened.
-        if (!isFocus) setIsFocus(true)
+        if (!isFocus) dispatch({ type: 'toggleFocus', isFocus: true })
 
         // If the focus reaches the end of the options in the list, set the focus to 0
-        if (currentFocus >= options.length - 1) {
-          setCurrentFocus(0)
+        if (focusIndex >= options.length - 1) {
+          dispatch({ type: 'setFocusIndex', focusIndex: 0 })
           updateValue(0)
           suggestCurrentObject.scrollTop = 0
         }
         // Change the scroll position based on the selected option position
         else {
-          setCurrentFocus(currentFocus + 1)
-          updateValue(currentFocus + 1)
+          dispatch({ type: 'setFocusIndex', focusIndex: focusIndex + 1 })
+          updateValue(focusIndex + 1)
           if (optionCurrentObject && suggestCurrentObject) {
             suggestCurrentObject.scrollTop = optionCurrentObject.offsetTop
           }
@@ -129,19 +132,19 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
       }
       case UP_ARROW: {
         // set the focus to true if the options list was not opened.
-        if (!isFocus) setIsFocus(true)
+        if (!isFocus) dispatch({ type: 'toggleFocus', isFocus: true })
 
         // If the focus falls beyond the start of the options in the list, set the focus to height of the suggestion-list
-        if (currentFocus <= 0) {
-          setCurrentFocus(options.length - 1)
+        if (focusIndex <= 0) {
+          dispatch({ type: 'setFocusIndex', focusIndex: options.length - 1 })
           updateValue(options.length - 1)
 
           if (suggestCurrentObject) suggestCurrentObject.scrollTop = 10000
         }
         // Change the scroll position based on the selected option position
         else {
-          setCurrentFocus(currentFocus - 1)
-          updateValue(currentFocus - 1)
+          dispatch({ type: 'setFocusIndex', focusIndex: focusIndex - 1 })
+          updateValue(focusIndex - 1)
 
           if (optionCurrentObject && suggestCurrentObject)
             suggestCurrentObject.scrollTop = optionCurrentObject.offsetTop - 30
@@ -150,14 +153,14 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
         break
       }
       case ENTER_KEY: {
-        if (currentFocus > -1 && currentFocus < options.length)
+        if (focusIndex > -1 && focusIndex < options.length)
           selectSuggestionHandler()
 
         break
       }
       case ESCAPE_KEY: {
         event.target.blur()
-        setIsFocus(false)
+        dispatch({ type: 'toggleFocus', isFocus: false })
         break
       }
     }
@@ -187,7 +190,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   return (
     <div className={styles.comboBox} style={style}>
       <input
-        onFocus={() => setIsFocus(true)}
+        onFocus={() => dispatch({ type: 'toggleFocus', isFocus: true })}
         onChange={inputChangeHandler}
         onClick={(event: any) => {
           event.stopPropagation()
@@ -222,15 +225,17 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
                     : styles.comboBoxOption
                 }
                 key={option}
-                ref={index === currentFocus ? optionRef : null}
+                ref={index === focusIndex ? optionRef : null}
                 style={{
                   backgroundColor:
-                    index === currentFocus
+                    index === focusIndex
                       ? focusColor || 'rgba(155,155,155,0.15)'
                       : 'white'
                 }}
                 onClick={suggestionClickHandler}
-                onMouseEnter={() => setCurrentFocus(index)}
+                onMouseEnter={() =>
+                  dispatch({ type: 'setFocusIndex', focusIndex: index })
+                }
               >
                 {renderOptions ? renderOptions(option) : option}
               </div>
