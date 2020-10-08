@@ -196,7 +196,6 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
           event.stopPropagation()
         }}
         ref={inputRef}
-        autoComplete='off'
         placeholder={placeholder || ''}
         onKeyDown={keyHandler}
         value={inputValue}
