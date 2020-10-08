@@ -3,15 +3,21 @@ import React, { useState, useRef, useEffect, useReducer } from 'react'
 import { initialState, focusReducer } from './reducer/focusReducer'
 import styles from './index.css'
 
+type HTMLElementEvent<T extends HTMLElement> = Event & {
+  target: T
+  // probably you might want to add the currentTarget as well
+  // currentTarget: T;
+}
+
 type ComboBoxProps = {
   options: string[]
-  onChange?: Function
+  onChange?: (event: HTMLElementEvent<HTMLTextAreaElement>) => void
   defaultIndex?: number
   placeholder?: string
-  onSelect?: Function
-  onOptionsChange?: Function
+  onSelect?: (option: string) => void
+  onOptionsChange?: (option: string) => void
   optionsListMaxHeight?: number
-  renderOptions?: Function
+  renderOptions?: (option: string) => React.ReactNode
   style?: React.CSSProperties
   className?: string
   focusColor?: string

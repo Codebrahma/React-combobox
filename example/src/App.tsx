@@ -35,6 +35,8 @@ const App = () => {
         renderOptions={(option: string) => (
           <div className='comboBoxOption'>{option}</div>
         )}
+        onSelect={(option) => console.log(option)}
+        onChange={(event) => console.log(event.target.value)}
         enableAutoComplete
       />
       <ComboBox
