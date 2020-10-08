@@ -9,6 +9,7 @@ type ComboBoxProps = {
   onSelect?: any
   onOptionsChange?: any
   optionsListMaxHeight?: number
+  renderOptions?: any
 }
 
 const UP_ARROW = 38
@@ -24,6 +25,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   onSelect,
   onOptionsChange,
   optionsListMaxHeight,
+  renderOptions,
   ...forwardedProps
 }) => {
   const suggestions: string[] = data
@@ -184,7 +186,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
                 onClick={suggestionClickHandler}
                 onMouseEnter={() => setCurrentFocus(index)}
               >
-                {value}
+                {renderOptions ? renderOptions(value) : value}
               </div>
             )
           })}
