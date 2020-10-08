@@ -1,10 +1,9 @@
 {
   "name": "reactcombobox",
   "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "description": "Easy and Flexible Combo-box",
   "author": "ashwinKumar0505",
   "license": "MIT",
-  "repository": "ashwinKumar0505/reactcombobox",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.tsx",

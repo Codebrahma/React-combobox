@@ -1,10 +1,50 @@
 import React from 'react'
 
-import { ExampleComponent } from 'reactcombobox'
+import ComboBox from 'reactcombobox'
 import 'reactcombobox/dist/index.css'
+import './app.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  const data = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan',
+    'China',
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'Andorra',
+    'Angola',
+    'Antigua',
+    'Barbuda'
+  ]
+  return (
+    <div>
+      <ComboBox
+        options={data}
+        placeholder='choose country'
+        defaultValue='welcome'
+        optionsListMaxHeight={300}
+        style={{ width: '500px' }}
+        focusColor='#20C374'
+        renderOptions={(option: string) => (
+          <div className='comboBoxOption'>{option}</div>
+        )}
+        enableAutoComplete
+      />
+      <ComboBox
+        options={data}
+        placeholder='choose country'
+        defaultValue='welcome'
+        style={{ marginTop: '600px', marginLeft: '100px' }}
+      />
+    </div>
+  )
 }
 
 export default App

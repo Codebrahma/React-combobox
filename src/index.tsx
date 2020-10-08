@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
-import styles from './styles.module.css'
+import styles from './index.css'
 
 type ComboBoxProps = {
-  data: string[]
+  options: string[]
   onChange?: Function
   defaultValue?: string
   placeholder?: string
@@ -10,6 +10,10 @@ type ComboBoxProps = {
   onOptionsChange?: Function
   optionsListMaxHeight?: number
   renderOptions?: Function
+  style?: React.CSSProperties
+  className?: string
+  focusColor?: string
+  enableAutoComplete?: boolean
 }
 
 const UP_ARROW = 38
@@ -18,7 +22,7 @@ const ENTER_KEY = 13
 const ESCAPE_KEY = 27
 
 const ExampleComponent: React.FC<ComboBoxProps> = ({
-  data,
+  options,
   onChange,
   defaultValue,
   placeholder,
@@ -26,15 +30,18 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   onOptionsChange,
   optionsListMaxHeight,
   renderOptions,
-  ...forwardedProps
+  style,
+  className,
+  focusColor,
+  enableAutoComplete
 }) => {
-  const suggestions: string[] = data
   const optionMaxHeight = optionsListMaxHeight || 200
   let suggestionListPositionStyles: any = {
     top: '100%',
     marginTop: '5px'
   }
 
+  const [suggestions, setSuggestions] = useState<string[]>(options)
   const [isFocus, setIsFocus] = useState(false)
   const [inputValue, setInputValue] = useState(defaultValue || '')
   const [currentFocus, setCurrentFocus] = useState(-1)
@@ -55,19 +62,6 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
       bottom: '100%',
       marginBottom: '5px'
     }
-  }
-
-  const updateValue = (index: number = currentFocus) => {
-    if (index !== -1) {
-      setInputValue(suggestions[index])
-      if (onOptionsChange) onOptionsChange(suggestions[index])
-    }
-  }
-
-  const selectSuggestionHandler = () => {
-    updateValue()
-    setIsFocus(false)
-    if (onSelect) onSelect(suggestions[currentFocus])
   }
 
   // close the suggestion list if the user click outside other than input and suggestion-list
@@ -93,6 +87,19 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
       )
     }
   })
+
+  const updateValue = (index: number = currentFocus) => {
+    if (index !== -1) {
+      setInputValue(suggestions[index])
+      if (onOptionsChange) onOptionsChange(suggestions[index])
+    }
+  }
+
+  const selectSuggestionHandler = () => {
+    updateValue()
+    setIsFocus(false)
+    if (onSelect) onSelect(suggestions[currentFocus])
+  }
 
   const keyHandler = (event: any) => {
     const suggestCurrentObject: any = suggestionRef.current
@@ -121,6 +128,9 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
         break
       }
       case UP_ARROW: {
+        // set the focus to true if the options list was not opened.
+        if (!isFocus) setIsFocus(true)
+
         // If the focus falls beyond the start of the suggestions in the list, set the focus to height of the suggestion-list
         if (currentFocus <= 0) {
           setCurrentFocus(suggestions.length - 1)
@@ -158,13 +168,24 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
     selectSuggestionHandler()
   }
 
+  const filterSuggestion = (filterText: string) => {
+    if (filterText.length === 0) setSuggestions(options)
+    else {
+      const filteredSuggestion = options.filter((option) => {
+        return option.toLowerCase().indexOf(filterText.toLowerCase()) !== -1
+      })
+      setSuggestions(filteredSuggestion)
+    }
+  }
+
   const inputChangeHandler = (event: any) => {
     if (onChange) onChange(event)
     setInputValue(event.target.value)
+    if (enableAutoComplete) filterSuggestion(event.target.value)
   }
 
   return (
-    <div className={styles.comboBox} {...forwardedProps}>
+    <div className={styles.comboBox} style={style}>
       <input
         onFocus={() => setIsFocus(true)}
         onChange={inputChangeHandler}
@@ -192,20 +213,26 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
           className={styles.comboBoxList}
           style={{ maxHeight: isFocus ? optionMaxHeight : 0 }}
         >
-          {data.map((value, index) => {
+          {suggestions.map((option, index) => {
             return (
               <div
-                className={styles.comboBoxOption}
-                key={value}
+                className={
+                  className
+                    ? `${styles.comboBoxOption} ${className}`
+                    : styles.comboBoxOption
+                }
+                key={option}
                 ref={index === currentFocus ? optionRef : null}
                 style={{
                   backgroundColor:
-                    index === currentFocus ? 'rgba(155,155,155,0.15)' : 'white'
+                    index === currentFocus
+                      ? focusColor || 'rgba(155,155,155,0.15)'
+                      : 'white'
                 }}
                 onClick={suggestionClickHandler}
                 onMouseEnter={() => setCurrentFocus(index)}
               >
-                {renderOptions ? renderOptions(value) : value}
+                {renderOptions ? renderOptions(option) : option}
               </div>
             )
           })}
