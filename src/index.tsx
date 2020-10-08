@@ -6,7 +6,7 @@ import styles from './index.css'
 type ComboBoxProps = {
   options: string[]
   onChange?: Function
-  defaultValue?: string
+  defaultIndex?: number
   placeholder?: string
   onSelect?: Function
   onOptionsChange?: Function
@@ -26,7 +26,7 @@ const ESCAPE_KEY = 27
 const ExampleComponent: React.FC<ComboBoxProps> = ({
   options: comboBoxOptions,
   onChange,
-  defaultValue,
+  defaultIndex,
   placeholder,
   onSelect,
   onOptionsChange,
@@ -43,8 +43,18 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
     marginTop: '5px'
   }
 
+  // Function that will check whether the defaultIndex falls inside the length of the options
+  // or else it will return -1
+  const getDefaultIndex = () => {
+    if (defaultIndex && defaultIndex >= 0 && defaultIndex < options.length) {
+      return defaultIndex
+    } else return -1
+  }
+
   const [options, setOptions] = useState<string[]>(comboBoxOptions)
-  const [inputValue, setInputValue] = useState(defaultValue || '')
+  const [inputValue, setInputValue] = useState(
+    getDefaultIndex() !== -1 ? options[getDefaultIndex()] : ''
+  )
   const [state, dispatch] = useReducer(focusReducer, initialState)
   const { isFocus, focusIndex } = state
 
@@ -79,6 +89,11 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
       dispatch({ type: 'toggleFocus', isFocus: false })
     }
   }
+
+  // Set the default index when the component is mounted
+  useEffect(() => {
+    dispatch({ type: 'setFocusIndex', focusIndex: getDefaultIndex() })
+  }, [])
 
   useEffect(() => {
     document.addEventListener('mousedown', (event) => handleClickOutside(event))

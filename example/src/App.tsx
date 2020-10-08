@@ -28,7 +28,7 @@ const App = () => {
       <ComboBox
         options={data}
         placeholder='choose country'
-        defaultValue='welcome'
+        defaultIndex={4}
         optionsListMaxHeight={300}
         style={{ width: '500px' }}
         focusColor='#20C374'
@@ -40,7 +40,6 @@ const App = () => {
       <ComboBox
         options={data}
         placeholder='choose country'
-        defaultValue='welcome'
         style={{ marginTop: '600px', marginLeft: '100px' }}
       />
     </div>
