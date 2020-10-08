@@ -1,9 +1,35 @@
-/* add css module styles here (optional) */
+.comboBox {
+  position: relative;
+  width: 150px;
+}
 
-.test {
-  margin: 2em;
-  padding: 0.5em;
-  border: 2px solid #000;
-  font-size: 2em;
-  text-align: center;
+.comboBoxInput {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #c1bcbc;
+  border-radius: 5px;
+}
+
+.comboBoxPopover {
+  position: absolute;
+  z-index: 2000;
+  overflow: auto;
+  width: 100%;
+  color: inherit;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  background-color: white;
+  top: 100%;
+  margin-top: 5px;
+
+}
+
+.comboBoxList {
+  overflow: 'scroll';
+}
+
+.comboBoxOption {
+  text-align: left;
+  cursor: pointer;
+  padding: .25rem .5rem;
 }
