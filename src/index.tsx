@@ -69,14 +69,13 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   const optionRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Determine the position(top or bottom) where the suggestion list to be showed
+  // Position the options container top or bottom based on the space available
   const optionsContainerRefObject: any = optionsContainerRef.current
 
-  const suggestionListPosition =
-    optionsContainerRefObject?.offsetWidth +
-    optionsContainerRefObject?.offsetParent.offsetTop
+  const offsetBottom =
+    window.innerHeight - optionsContainerRefObject?.offsetParent.offsetTop
 
-  if (suggestionListPosition > window.innerHeight) {
+  if (optionsContainerRefObject?.offsetParent.offsetTop > offsetBottom) {
     suggestionListPositionStyles = {
       bottom: '100%',
       marginBottom: '5px'
@@ -176,7 +175,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
           dispatch({ type: 'toggleFocus', isFocus: true })
           if (optionCurrentObject && optionsContainerRefObject)
             optionsContainerRefObject.scrollTop =
-              optionCurrentObject.offsetTop + optionCurrentObject.offsetHeight
+              optionCurrentObject.offsetTop - optionCurrentObject.offsetHeight
         } else {
           // If the focus falls beyond the start of the options in the list, set the focus to height of the suggestion-list
           if (focusIndex <= 0) {
