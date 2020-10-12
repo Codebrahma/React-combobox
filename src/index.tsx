@@ -29,7 +29,7 @@ const DOWN_ARROW = 40
 const ENTER_KEY = 13
 const ESCAPE_KEY = 27
 
-const ExampleComponent: React.FC<ComboBoxProps> = ({
+const ComboBox: React.FC<ComboBoxProps> = ({
   options: comboBoxOptions,
   onChange,
   defaultIndex,
@@ -297,4 +297,4 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   )
 }
 
-export default ExampleComponent
+export default ComboBox
