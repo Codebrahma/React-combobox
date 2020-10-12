@@ -1,6 +1,6 @@
 # reactcombobox
 
-> Made with create-react-library
+> A flexible and easy accessible combo-box for the React JS.
 
 [![NPM](https://img.shields.io/npm/v/reactcombobox.svg)](https://www.npmjs.com/package/reactcombobox) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -13,16 +13,24 @@ npm install --save reactcombobox
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React from 'react'
 
-import MyComponent from 'reactcombobox'
-import 'reactcombobox/dist/index.css'
+import ComboBox from 'reactcombobox'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+const ComboBoxExample=()=>{
+    const data = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+  return <ComboBox options={data}>
 }
+
 ```
 
 ## License
