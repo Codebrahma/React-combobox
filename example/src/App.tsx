@@ -33,13 +33,14 @@ const App = () => {
     'Singapore'
   ]
   return (
-    <div>
+    <div style={{ width: '500px', margin: '0 auto', textAlign: 'center' }}>
+      <h1>React Combo-box</h1>
       <ComboBox
         options={data}
         placeholder='choose country'
         defaultIndex={4}
         optionsListMaxHeight={300}
-        style={{ width: '500px' }}
+        style={{ width: '500px', marginTop: '50px' }}
         focusColor='#20C374'
         renderOptions={(option: string) => (
           <div className='comboBoxOption'>{option}</div>
@@ -47,11 +48,6 @@ const App = () => {
         onSelect={(option) => console.log(option)}
         onChange={(event) => console.log(event.target.value)}
         enableAutoComplete
-      />
-      <ComboBox
-        options={data}
-        placeholder='choose country'
-        style={{ marginTop: '600px', marginLeft: '100px' }}
       />
     </div>
   )
