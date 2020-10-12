@@ -186,7 +186,8 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
             })
 
             if (optionsContainerRefObject)
-              optionsContainerRefObject.scrollTop = 10000
+              optionsContainerRefObject.scrollTop =
+                optionsContainerRefObject.scrollHeight
           } else {
             dispatch({
               type: 'setFocusIndex',
