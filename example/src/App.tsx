@@ -21,7 +21,16 @@ const App = () => {
     'Andorra',
     'Angola',
     'Antigua',
-    'Barbuda'
+    'Barbuda',
+    'Mexico',
+    'Monaco',
+    'Nepal',
+    'Bulgaria',
+    'Pakistan',
+    'Russia',
+    'Egypt',
+    'Sri Lanka',
+    'Singapore'
   ]
   return (
     <div>

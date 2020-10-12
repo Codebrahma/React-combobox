@@ -65,16 +65,16 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
   const { isFocus, focusIndex } = state
   const [isMouseInsideOptions, setIsMouseInsideOptions] = useState(false)
 
-  const comboBoxRef = useRef(null)
+  const optionsContainerRef = useRef(null)
   const optionRef = useRef(null)
   const inputRef = useRef(null)
 
   // Determine the position(top or bottom) where the suggestion list to be showed
-  const suggestCurrentObject: any = comboBoxRef.current
+  const optionsContainerRefObject: any = optionsContainerRef.current
 
   const suggestionListPosition =
-    suggestCurrentObject?.offsetWidth +
-    suggestCurrentObject?.offsetParent.offsetTop
+    optionsContainerRefObject?.offsetWidth +
+    optionsContainerRefObject?.offsetParent.offsetTop
 
   if (suggestionListPosition > window.innerHeight) {
     suggestionListPositionStyles = {
@@ -99,59 +99,113 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
     }
   }
 
+  // While searching, the options are filtered and the index also changed.
+  // So the focus index is set to original based on all the options.
+  const resetFocusIndex = () => {
+    comboBoxOptions.forEach((option: string, index: number) => {
+      if (option === options[focusIndex])
+        dispatch({
+          type: 'setFocusIndex',
+          focusIndex: index
+        })
+    })
+  }
+
   const selectSuggestionHandler = () => {
     updateValue()
     dispatch({ type: 'toggleFocus', isFocus: false })
+    resetFocusIndex()
+    setOptions(comboBoxOptions)
 
     if (onSelect) onSelect(options[focusIndex])
   }
 
   const keyHandler = (event: any) => {
-    const suggestCurrentObject: any = comboBoxRef.current
+    const optionsContainerRefObject: any = optionsContainerRef.current
     const optionCurrentObject: any = optionRef.current
 
     switch (event.keyCode) {
       case DOWN_ARROW: {
         // set the focus to true if the options list was not opened.
-        if (!isFocus) dispatch({ type: 'toggleFocus', isFocus: true })
+        // Also set the scroll top
+        if (!isFocus) {
+          dispatch({ type: 'toggleFocus', isFocus: true })
+          if (optionCurrentObject && optionsContainerRefObject)
+            optionsContainerRefObject.scrollTop =
+              optionCurrentObject.offsetTop - optionCurrentObject.offsetHeight
+        } else {
+          // If the focus reaches the end of the options in the list, set the focus to 0
+          if (focusIndex >= options.length - 1) {
+            dispatch({
+              type: 'setFocusIndex',
+              focusIndex: 0
+            })
+            optionsContainerRefObject.scrollTop = 0
+          }
+          // Change the scroll position based on the selected option position
+          else {
+            dispatch({
+              type: 'setFocusIndex',
+              focusIndex: focusIndex + 1
+            })
+            if (optionCurrentObject && optionsContainerRefObject) {
+              const optionPosition =
+                optionCurrentObject.offsetTop + optionCurrentObject.offsetHeight
 
-        // If the focus reaches the end of the options in the list, set the focus to 0
-        if (focusIndex >= options.length - 1) {
-          dispatch({ type: 'setFocusIndex', focusIndex: 0 })
-          updateValue(0)
-          suggestCurrentObject.scrollTop = 0
-        }
-        // Change the scroll position based on the selected option position
-        else {
-          dispatch({ type: 'setFocusIndex', focusIndex: focusIndex + 1 })
-          updateValue(focusIndex + 1)
-          if (optionCurrentObject && suggestCurrentObject) {
-            suggestCurrentObject.scrollTop = optionCurrentObject.offsetTop
+              const optionsContainerPosition =
+                optionsContainerRefObject.clientHeight +
+                optionsContainerRefObject.scrollTop -
+                optionCurrentObject.offsetHeight
+
+              // Measured the option position with the suggestion height
+              // changed the scroll top if the option reached the end of the options container height
+
+              if (optionPosition >= optionsContainerPosition) {
+                optionsContainerRefObject.scrollTop +=
+                  optionCurrentObject.offsetHeight
+              }
+            }
           }
         }
-        comboBoxRef.current = suggestCurrentObject
+        optionsContainerRef.current = optionsContainerRefObject
         break
       }
       case UP_ARROW: {
         // set the focus to true if the options list was not opened.
-        if (!isFocus) dispatch({ type: 'toggleFocus', isFocus: true })
+        if (!isFocus) {
+          dispatch({ type: 'toggleFocus', isFocus: true })
+          if (optionCurrentObject && optionsContainerRefObject)
+            optionsContainerRefObject.scrollTop =
+              optionCurrentObject.offsetTop + optionCurrentObject.offsetHeight
+        } else {
+          // If the focus falls beyond the start of the options in the list, set the focus to height of the suggestion-list
+          if (focusIndex <= 0) {
+            dispatch({
+              type: 'setFocusIndex',
+              focusIndex: options.length - 1
+            })
 
-        // If the focus falls beyond the start of the options in the list, set the focus to height of the suggestion-list
-        if (focusIndex <= 0) {
-          dispatch({ type: 'setFocusIndex', focusIndex: options.length - 1 })
-          updateValue(options.length - 1)
+            if (optionsContainerRefObject)
+              optionsContainerRefObject.scrollTop = 10000
+          } else {
+            dispatch({
+              type: 'setFocusIndex',
+              focusIndex: focusIndex - 1
+            })
 
-          if (suggestCurrentObject) suggestCurrentObject.scrollTop = 10000
+            // Measured the option position with the suggestion height
+            // changed the scroll top if the option reached the start of the options container height
+            if (optionCurrentObject && optionsContainerRefObject) {
+              const optionPosition =
+                optionCurrentObject.offsetTop - optionCurrentObject.offsetHeight
+              if (optionPosition <= optionsContainerRefObject.scrollTop) {
+                optionsContainerRefObject.scrollTop -=
+                  optionCurrentObject.offsetHeight
+              }
+            }
+          }
         }
-        // Change the scroll position based on the selected option position
-        else {
-          dispatch({ type: 'setFocusIndex', focusIndex: focusIndex - 1 })
-          updateValue(focusIndex - 1)
-
-          if (optionCurrentObject && suggestCurrentObject)
-            suggestCurrentObject.scrollTop = optionCurrentObject.offsetTop - 30
-        }
-        comboBoxRef.current = suggestCurrentObject
+        optionsContainerRef.current = optionsContainerRefObject
         break
       }
       case ENTER_KEY: {
@@ -166,11 +220,6 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
         break
       }
     }
-  }
-
-  const suggestionClickHandler = (event: any) => {
-    event.stopPropagation()
-    selectSuggestionHandler()
   }
 
   const filterSuggestion = (filterText: string) => {
@@ -194,9 +243,6 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
       <input
         onFocus={() => dispatch({ type: 'toggleFocus', isFocus: true })}
         onChange={inputChangeHandler}
-        onClick={(event: any) => {
-          event.stopPropagation()
-        }}
         ref={inputRef}
         placeholder={placeholder || ''}
         onKeyDown={keyHandler}
@@ -212,7 +258,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
           visibility: isFocus ? 'visible' : 'hidden',
           ...suggestionListPositionStyles
         }}
-        ref={comboBoxRef}
+        ref={optionsContainerRef}
         onMouseEnter={() => setIsMouseInsideOptions(true)}
         onMouseLeave={() => setIsMouseInsideOptions(false)}
       >
@@ -236,7 +282,7 @@ const ExampleComponent: React.FC<ComboBoxProps> = ({
                       ? focusColor || 'rgba(155,155,155,0.15)'
                       : 'white'
                 }}
-                onClick={suggestionClickHandler}
+                onClick={selectSuggestionHandler}
                 onMouseEnter={() =>
                   dispatch({ type: 'setFocusIndex', focusIndex: index })
                 }
