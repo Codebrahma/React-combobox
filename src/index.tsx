@@ -11,7 +11,7 @@ type HTMLElementEvent<T extends HTMLElement> = Event & {
 
 type ComboBoxProps = {
   options: string[]
-  onChange?: (event: HTMLElementEvent<HTMLTextAreaElement>) => void
+  onChange?: (event: HTMLElementEvent<HTMLInputElement>) => void
   defaultIndex?: number
   placeholder?: string
   onSelect?: (option: string) => void
