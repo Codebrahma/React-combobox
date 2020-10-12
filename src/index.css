@@ -1,14 +1,18 @@
 .comboBox {
   position: relative;
   width: 200px;
+  height: 40px
 }
 
 .comboBoxInput {
   width: 100%;
+  height: 100%;
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid #c1bcbc;
   border-radius: 5px;
+  background-color: inherit;
+  color: inherit
 }
 
 .comboBoxPopover {

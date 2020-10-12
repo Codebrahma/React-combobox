@@ -40,7 +40,11 @@ const App = () => {
         placeholder='choose country'
         defaultIndex={4}
         optionsListMaxHeight={300}
-        style={{ width: '500px', marginTop: '50px' }}
+        style={{
+          width: '350px',
+          margin: '0 auto',
+          marginTop: '50px'
+        }}
         focusColor='#20C374'
         renderOptions={(option: string) => (
           <div className='comboBoxOption'>{option}</div>
