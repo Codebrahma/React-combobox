@@ -1,0 +1,155 @@
+---
+name:Props
+route:/Props
+---
+
+import Props from './components/props.js'
+
+# Props
+
+<Props />
+
+## Usage
+
+### Example-1
+
+- This is the example for the props - options , placeholder and defaultIndex
+
+- options is the required prop to be passed to the combo-box.
+
+```js
+import ComboBox from 'react-responsive-combo-box'
+const App = () => {
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        placeholder='Enter your country'
+        defaultIndex={1}
+      />
+    </div>
+  )
+}
+```
+
+### Example-2
+
+- This is the example for props - className , style and focusColor.
+
+```css
+.Combo-box {
+  width:'300px'
+  height:'80px'
+}
+
+```
+
+```js
+import ComboBox from 'react-responsive-combo-box'
+import './index.css'
+
+const App = () => {
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        className='combo-box'
+        style={{ margin: '10px' }}
+        focusColor='teal'
+      />
+    </div>
+  )
+}
+```
+
+### Example-3
+
+- This is example for the props - onChange, onSelect and onOptionsChange
+
+```js
+import React, { useState } from 'react'
+import ComboBox from 'react-responsive-combo-box'
+
+const App = () => {
+  const [selectedOption, setSelectedOption] = useState('')
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        onChange={(event) => console.log(event.target.value)}
+        onSelect={(option) => setSelectedOption(option)}
+        onOptionsChange={(option) => console.log(option)}
+      />
+      <p>The selected option is {selectedOption}</p>
+    </div>
+  )
+}
+```
+
+### Example-4
+
+- This is example for the props - optionsListMaxHeight, renderOptions and enableAutocomplete
+
+```js
+import React, { useState } from 'react'
+import ComboBox from 'react-responsive-combo-box'
+
+const App = () => {
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        optionsMaxHeight={500}
+        renderOptions={(option) => (
+          <div style={{ padding: '10px' }}>This is {option}</div>
+        )}
+        enableAutocomplete
+      />
+    </div>
+  )
+}
+```

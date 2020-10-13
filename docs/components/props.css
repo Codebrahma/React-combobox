@@ -1,0 +1,28 @@
+.OuterContainer {
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 32px;
+  background-color: #FCFBFA;
+  color: #2D3747;
+  font-size: 18px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+}
+
+table td,
+th {
+  border: 1px dotted black;
+  text-align: left;
+  padding: 8px;
+}
+
+a {
+  color: #0B5FFF;
+  text-decoration: none;
+}

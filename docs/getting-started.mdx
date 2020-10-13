@@ -1,0 +1,97 @@
+---
+name: Getting Started
+route: /getting-started
+---
+
+# Getting Started
+
+## Installation
+
+Start by installing `react-responsive-combo-box` as a dependency with `npm` :
+
+```
+npm i react-responsive-combo-box
+```
+
+or if you are using `yarn` :
+
+```
+yarn add react-responsive-combo-box
+```
+
+## Basic Usage
+
+### 1. Define the options
+
+The options for the combo-box are passed as array of strings.
+
+```js
+const options = [
+  'America',
+  'India',
+  'Australia',
+  'Argentina',
+  'Ireland',
+  'Indonesia',
+  'Iceland',
+  'Japan'
+]
+```
+
+### 2. Usage
+
+You can use the combo-box component anywhere and pass in the options prop.
+
+```js
+import React from 'react'
+import ComboBox from 'react-responsive-combo-box'
+import options from '../path/where/options/present'
+
+const app = () => {
+  ;<div>
+    <ComboBox options={options} />
+  </div>
+}
+```
+
+### 3. Autocomplete feature
+
+- The combo-box component provides autocomplete feature.
+
+- You can enable the feature by passing enableAutocomplete prop to true.
+
+```js
+import React from 'react'
+import ComboBox from 'react-responsive-combo-box'
+import options from '../path/where/options/present'
+
+const app = () => {
+  ;<div>
+    <ComboBox options={options} enableAutocomplete />
+  </div>
+}
+```
+
+### 4. Styling the Combo-box
+
+- You can style the combo-box with the help of className or using inline styles just like other html components.
+
+- focusColor prop is used to change the highlighted colour of the selected option.
+
+```js
+import React from 'react'
+import ComboBox from 'react-responsive-combo-box'
+import options from '../path/where/options/present'
+import './index.css'
+
+const app = () => {
+  ;<div>
+    <ComboBox
+      options={options}
+      className='comboBox'
+      style={{ margin: '20px' }}
+      focusColor='teal'
+    />
+  </div>
+}
+```

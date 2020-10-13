@@ -17,8 +17,8 @@ import React from 'react'
 
 import ComboBox from 'react-responsive-combo-box'
 
-const ComboBoxExample=()=>{
-    const data = [
+const ComboBoxExample = () => {
+  const data = [
     'America',
     'India',
     'Australia',
@@ -28,10 +28,17 @@ const ComboBoxExample=()=>{
     'Iceland',
     'Japan'
   ]
-  return <ComboBox options={data}>
+  return <ComboBox options={data} enableAutocomplete />
 }
-
 ```
+
+## Guide And Documentation
+
+For the complete Documentation, click
+
+## Live Preview
+
+For the live preview, click <a style="color:#cc3a38" href="https://react-combobox.netlify.app/">here</a>
 
 ## License
 
