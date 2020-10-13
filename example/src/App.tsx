@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ComboBox from 'reactcombobox'
-import 'reactcombobox/dist/index.css'
+import ComboBox from 'react-responsive-combo-box'
+import 'react-responsive-combo-box/dist/index.css'
 import './app.css'
 
 const App = () => {

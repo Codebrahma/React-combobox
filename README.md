@@ -1,13 +1,13 @@
-# reactcombobox
+# React Combo-box
 
 > A flexible and easy accessible combo-box for the React JS.
 
-[![NPM](https://img.shields.io/npm/v/reactcombobox.svg)](https://www.npmjs.com/package/reactcombobox) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/reactcombobox.svg)](https://www.npmjs.com/package/react-responsive-combo-box) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save reactcombobox
+npm install --save react-responsive-combo-box
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install --save reactcombobox
 ```tsx
 import React from 'react'
 
-import ComboBox from 'reactcombobox'
+import ComboBox from 'react-responsive-combo-box'
 
 const ComboBoxExample=()=>{
     const data = [
