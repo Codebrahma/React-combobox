@@ -47,10 +47,12 @@ import React from 'react'
 import ComboBox from 'react-responsive-combo-box'
 import options from '../path/where/options/present'
 
-const app = () => {
-  ;<div>
-    <ComboBox options={options} />
-  </div>
+const App = () => {
+  return (
+    <div>
+      <ComboBox options={options} />
+    </div>
+  )
 }
 ```
 
@@ -65,10 +67,12 @@ import React from 'react'
 import ComboBox from 'react-responsive-combo-box'
 import options from '../path/where/options/present'
 
-const app = () => {
-  ;<div>
-    <ComboBox options={options} enableAutocomplete />
-  </div>
+const App = () => {
+  return (
+    <div>
+      <ComboBox options={options} enableAutocomplete />
+    </div>
+  )
 }
 ```
 
@@ -84,14 +88,16 @@ import ComboBox from 'react-responsive-combo-box'
 import options from '../path/where/options/present'
 import './index.css'
 
-const app = () => {
-  ;<div>
-    <ComboBox
-      options={options}
-      className='comboBox'
-      style={{ margin: '20px' }}
-      focusColor='teal'
-    />
-  </div>
+const App = () => {
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        className='comboBox'
+        style={{ margin: '20px' }}
+        focusColor='teal'
+      />
+    </div>
+  )
 }
 ```
