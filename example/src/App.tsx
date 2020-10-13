@@ -51,7 +51,7 @@ const App = () => {
         )}
         onSelect={(option) => console.log(option)}
         onChange={(event) => console.log(event.target.value)}
-        enableAutoComplete
+        enableAutocomplete
       />
     </div>
   )
