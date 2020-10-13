@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import ComboBox from 'react-responsive-combo-box'
 import 'react-responsive-combo-box/dist/index.css'
 import './app.css'
 
+import CodebrahmaLogo from './images/codebrahma1.png'
+import GithubLogo from './images/github.svg'
+import DocsLogo from './images/docs2.png'
+
 const App = () => {
+  const [selectedOption, setSelectedOption] = useState('')
+  const [highlightedOption, setHighlightedOption] = useState('')
   const data = [
     'America',
     'India',
@@ -33,26 +39,64 @@ const App = () => {
     'Singapore'
   ]
   return (
-    <div style={{ width: '500px', margin: '0 auto', textAlign: 'center' }}>
-      <h1>React Combo-box</h1>
-      <ComboBox
-        options={data}
-        placeholder='choose country'
-        defaultIndex={4}
-        optionsListMaxHeight={300}
-        style={{
-          width: '350px',
-          margin: '0 auto',
-          marginTop: '50px'
-        }}
-        focusColor='#20C374'
-        renderOptions={(option: string) => (
-          <div className='comboBoxOption'>{option}</div>
-        )}
-        onSelect={(option) => console.log(option)}
-        onChange={(event) => console.log(event.target.value)}
-        enableAutocomplete
-      />
+    <div className='outerContainer'>
+      <div className='header'>
+        <img
+          src={CodebrahmaLogo}
+          alt='codebrahma-logo'
+          className='codebrahma-logo'
+        />
+        <h2 className='title'>React Combo Box</h2>
+        <div>
+          <a href='https://github.com/Codebrahma/React-combobox'>
+            <img
+              src={GithubLogo}
+              alt='github-logo'
+              className='logo'
+              title='github'
+            />
+          </a>
+          <img
+            src={DocsLogo}
+            alt='docs-logo'
+            className='logo'
+            title='documentation'
+          />
+        </div>
+      </div>
+      <div className='combo-box-container'>
+        <p>
+          The selected option -{' '}
+          <span style={{ fontWeight: 'bold' }}>
+            {' '}
+            {selectedOption.length > 0 ? selectedOption : 'None'}
+          </span>
+        </p>
+        <p>
+          The highlighted option -{' '}
+          <span style={{ fontWeight: 'bold' }}>
+            {' '}
+            {highlightedOption.length > 0 ? highlightedOption : 'None'}
+          </span>
+        </p>
+        <ComboBox
+          options={data}
+          placeholder='choose country'
+          defaultIndex={4}
+          optionsListMaxHeight={300}
+          style={{
+            width: '350px',
+            marginTop: '20px'
+          }}
+          focusColor='#20C374'
+          renderOptions={(option: string) => (
+            <div className='comboBoxOption'>{option}</div>
+          )}
+          onSelect={(option) => setSelectedOption(option)}
+          onOptionsChange={(option) => setHighlightedOption(option)}
+          enableAutocomplete
+        />
+      </div>
     </div>
   )
 }

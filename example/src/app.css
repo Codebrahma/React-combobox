@@ -1,3 +1,38 @@
 .comboBoxOption {
   padding: 5px;
 }
+
+
+.logo {
+  width: 26px;
+  height: 26px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.codebrahma-logo {
+  width: 170px;
+  height: 25px;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  align-items: center;
+  box-shadow: 2px 0px 6px 3px rgba(0, 0, 0, 0.1)
+}
+
+.title {
+  transform: translateX(-15%);
+}
+
+.combo-box-container {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
