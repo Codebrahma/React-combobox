@@ -115,6 +115,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const keyHandler = (event: any) => {
     const optionsContainerElement: any = optionsContainerRef.current
     const optionElement: any = optionRef.current
+    let newFocusIndex = focusIndex
 
     switch (event.keyCode) {
       case DOWN_ARROW: {
@@ -127,19 +128,14 @@ const ComboBox: React.FC<ComboBoxProps> = ({
               optionElement.offsetTop - optionElement.offsetHeight
         } else {
           // If the focus reaches the end of the options in the list, set the focus to 0
+
           if (focusIndex >= options.length - 1) {
-            dispatch({
-              type: 'setFocusIndex',
-              focusIndex: 0
-            })
+            newFocusIndex = 0
             optionsContainerElement.scrollTop = 0
           }
           // Change the scroll position based on the selected option position
           else {
-            dispatch({
-              type: 'setFocusIndex',
-              focusIndex: focusIndex + 1
-            })
+            newFocusIndex = focusIndex + 1
             if (optionElement && optionsContainerElement) {
               const optionPosition =
                 optionElement.offsetTop + optionElement.offsetHeight
@@ -171,19 +167,13 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         } else {
           // If the focus falls beyond the start of the options in the list, set the focus to height of the suggestion-list
           if (focusIndex <= 0) {
-            dispatch({
-              type: 'setFocusIndex',
-              focusIndex: options.length - 1
-            })
+            newFocusIndex = options.length - 1
 
             if (optionsContainerElement)
               optionsContainerElement.scrollTop =
                 optionsContainerElement.scrollHeight
           } else {
-            dispatch({
-              type: 'setFocusIndex',
-              focusIndex: focusIndex - 1
-            })
+            newFocusIndex = focusIndex - 1
 
             // Measured the option position with the suggestion height
             // changed the scroll top if the option reached the start of the options container height
@@ -211,6 +201,13 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         break
       }
     }
+    focusIndex !== newFocusIndex &&
+      dispatch({
+        type: 'setFocusIndex',
+        focusIndex: newFocusIndex
+      })
+
+    if (onOptionsChange) onOptionsChange(options[newFocusIndex])
   }
 
   const filterSuggestion = (filterText: string) => {
