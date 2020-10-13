@@ -154,6 +154,12 @@ const ComboBox: React.FC<ComboBoxProps> = ({
             }
           }
         }
+        dispatch({
+          type: 'setFocusIndex',
+          focusIndex: newFocusIndex
+        })
+
+        if (onOptionsChange) onOptionsChange(options[newFocusIndex])
         optionsContainerRef.current = optionsContainerElement
         break
       }
@@ -186,6 +192,12 @@ const ComboBox: React.FC<ComboBoxProps> = ({
             }
           }
         }
+        dispatch({
+          type: 'setFocusIndex',
+          focusIndex: newFocusIndex
+        })
+
+        if (onOptionsChange) onOptionsChange(options[newFocusIndex])
         optionsContainerRef.current = optionsContainerElement
         break
       }
@@ -201,13 +213,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         break
       }
     }
-    focusIndex !== newFocusIndex &&
-      dispatch({
-        type: 'setFocusIndex',
-        focusIndex: newFocusIndex
-      })
-
-    if (onOptionsChange) onOptionsChange(options[newFocusIndex])
   }
 
   const filterSuggestion = (filterText: string) => {
