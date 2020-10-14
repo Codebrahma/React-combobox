@@ -2,9 +2,8 @@
 
 > A flexible and easy accessible combo-box for the React JS.
 
-[![NPM](https://img.shields.io/npm/v/reactcombobox.svg)](https://www.npmjs.com/package/react-responsive-combo-box) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/reactcombobox.svg)](https://www.npmjs.com/package/react-responsive-combo-box) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) [![Netlify Status](https://api.netlify.com/api/v1/badges/246cf76a-5156-4e4f-bb83-c98de91b581f/deploy-status)](https://app.netlify.com/sites/react-combobox/deploys)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/246cf76a-5156-4e4f-bb83-c98de91b581f/deploy-status)](https://app.netlify.com/sites/react-combobox/deploys)
 
 ## Install
 
@@ -36,11 +35,7 @@ const ComboBoxExample = () => {
 
 ## Guide And Documentation
 
-For the complete Documentation, click
-
-## Live Preview
-
-For the live preview, click <a style="color:#cc3a38" href="https://react-combobox.netlify.app/">here</a>
+Read the full Documentation <a style="color:#cc3a38" href="https://react-combobox.netlify.app/">here</a>.
 
 ## License
 
