@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useReducer } from 'react'
 
 import { initialState, focusReducer } from './reducer/focusReducer'
-import styles from './index.css'
+import styles from './index.module.css'
 
 type ComboBoxProps = {
   options: string[]
