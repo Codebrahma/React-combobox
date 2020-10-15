@@ -59,9 +59,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const optionsContainerElement: any = optionsContainerRef.current
 
   const offsetBottom =
-    window.innerHeight - optionsContainerElement?.offsetParent.offsetTop
+    window.innerHeight - optionsContainerElement?.offsetParent?.offsetTop
 
-  if (optionsContainerElement?.offsetParent.offsetTop > offsetBottom) {
+  if (optionsContainerElement?.offsetParent?.offsetTop > offsetBottom) {
     suggestionListPositionStyles = {
       bottom: '100%',
       marginBottom: '5px'
