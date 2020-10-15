@@ -82,7 +82,7 @@ const App = () => {
         <ComboBox
           options={data}
           placeholder='choose country'
-          defaultIndex={4}
+          defaultValue='Indi'
           optionsListMaxHeight={300}
           style={{
             width: '350px',

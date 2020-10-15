@@ -6,7 +6,7 @@ import styles from './index.module.css'
 type ComboBoxProps = {
   options: string[]
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
-  defaultIndex?: number
+  defaultValue?: string
   placeholder?: string
   onSelect?: (option: string) => void
   onOptionsChange?: (option: string) => void
@@ -26,7 +26,7 @@ const ESCAPE_KEY = 27
 const ComboBox: React.FC<ComboBoxProps> = ({
   options: comboBoxOptions,
   onChange,
-  defaultIndex,
+  defaultValue,
   placeholder,
   onSelect,
   onOptionsChange,
@@ -45,16 +45,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
 
   // Function that will check whether the defaultIndex falls inside the length of the options
   // or else it will return -1
-  const getDefaultIndex = () => {
-    if (defaultIndex && defaultIndex >= 0 && defaultIndex < options.length) {
-      return defaultIndex
-    } else return -1
-  }
 
   const [options, setOptions] = useState<string[]>(comboBoxOptions)
-  const [inputValue, setInputValue] = useState(
-    getDefaultIndex() !== -1 ? options[getDefaultIndex()] : ''
-  )
+  const [inputValue, setInputValue] = useState(defaultValue || '')
   const [state, dispatch] = useReducer(focusReducer, initialState)
   const { isFocus, focusIndex } = state
   const [isMouseInsideOptions, setIsMouseInsideOptions] = useState(false) // This is used to determine whether the mouse cursor is inside or outside options container
@@ -77,7 +70,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
 
   // Set the default index when the component is mounted
   useEffect(() => {
-    dispatch({ type: 'setFocusIndex', focusIndex: getDefaultIndex() })
+    dispatch({
+      type: 'setFocusIndex',
+      focusIndex: defaultValue ? options.indexOf(defaultValue) : -1
+    })
   }, [])
 
   const blurHandler = () => {
