@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useReducer } from 'react'
 
 import { initialState, focusReducer } from './reducer/focusReducer'
-import styles from './index.module.css'
+import styles from './styles.css'
 
 type ComboBoxProps = {
   options: string[]
@@ -38,10 +38,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   enableAutocomplete
 }) => {
   const optionMaxHeight = optionsListMaxHeight || 200
-  let suggestionListPositionStyles: React.CSSProperties = {
-    top: '100%',
-    marginTop: '5px'
-  }
+  let suggestionListPositionStyles: React.CSSProperties = {}
 
   // Function that will check whether the defaultIndex falls inside the length of the options
   // or else it will return -1
@@ -51,22 +48,40 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const [state, dispatch] = useReducer(focusReducer, initialState)
   const { isFocus, focusIndex } = state
   const [isMouseInsideOptions, setIsMouseInsideOptions] = useState(false) // This is used to determine whether the mouse cursor is inside or outside options container
+  const [IsOptionsPositionedTop, setIsOptionsPositionedTop] = useState(false)
 
   const optionsContainerRef = useRef<HTMLDivElement | null>(null)
   const optionRef = useRef<HTMLDivElement>(null)
 
-  // Position the options container top or bottom based on the space available
-  const optionsContainerElement: any = optionsContainerRef.current
+  useEffect(() => {
+    // Position the options container top or bottom based on the space available
+    const optionsContainerElement: any = optionsContainerRef.current
 
-  const offsetBottom =
-    window.innerHeight - optionsContainerElement?.offsetParent?.offsetTop
+    const offsetBottom =
+      window.innerHeight -
+      optionsContainerElement?.offsetParent?.getBoundingClientRect().top
 
-  if (optionsContainerElement?.offsetParent?.offsetTop > offsetBottom) {
+    if (
+      optionMaxHeight > offsetBottom &&
+      optionsContainerElement?.offsetParent?.getBoundingClientRect().top >
+        offsetBottom
+    ) {
+      setIsOptionsPositionedTop(true)
+    } else {
+      setIsOptionsPositionedTop(false)
+    }
+  }, [isFocus])
+
+  if (IsOptionsPositionedTop)
     suggestionListPositionStyles = {
       bottom: '100%',
       marginBottom: '5px'
     }
-  }
+  else
+    suggestionListPositionStyles = {
+      top: '100%',
+      marginTop: '5px'
+    }
 
   // Set the default index when the component is mounted
   useEffect(() => {

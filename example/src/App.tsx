@@ -86,7 +86,7 @@ const App = () => {
           optionsListMaxHeight={300}
           style={{
             width: '350px',
-            marginTop: '20px'
+            marginTop: '380px'
           }}
           focusColor='#20C374'
           renderOptions={(option: string) => (
