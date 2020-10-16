@@ -19,6 +19,7 @@ type ComboBoxProps = {
   inputStyles?: React.CSSProperties
   name?: string
   onBlur?: (event?: React.ChangeEvent<HTMLInputElement>) => void
+  editable?: boolean
 }
 
 const UP_ARROW = 38
@@ -41,7 +42,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   enableAutocomplete,
   inputStyles,
   name,
-  onBlur
+  onBlur,
+  editable = true
 }) => {
   const optionMaxHeight = optionsListMaxHeight || 200
   let suggestionListPositionStyles: React.CSSProperties = {}
@@ -249,6 +251,12 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     if (enableAutocomplete) filterSuggestion(event.target.value)
   }
 
+  const inputClickHandler = () => {
+    if (!isFocus) {
+      dispatch({ type: 'toggleFocus', isFocus: true })
+    }
+  }
+
   return (
     <div className={styles.comboBox} style={style}>
       <input
@@ -260,7 +268,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         className={styles.comboBoxInput}
         onBlur={blurHandler}
         name={name}
-        style={inputStyles}
+        style={{ ...inputStyles, cursor: editable ? 'text' : 'default' }}
+        readOnly={!editable}
+        onClick={inputClickHandler}
       />
 
       <div

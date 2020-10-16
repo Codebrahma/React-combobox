@@ -96,6 +96,7 @@ const App = () => {
           onOptionsChange={(option) => setHighlightedOption(option)}
           enableAutocomplete
           onBlur={(event) => console.log(event?.target.value)}
+          editable={false}
         />
       </div>
     </div>
