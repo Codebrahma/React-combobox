@@ -133,13 +133,14 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }
 
   const keyHandler = (event: any) => {
-    event.preventDefault()
     const optionsContainerElement: any = optionsContainerRef.current
     const optionElement: any = optionRef.current
     let newFocusIndex = focusIndex
 
     switch (event.keyCode) {
       case DOWN_ARROW: {
+        event.preventDefault()
+
         // set the focus to true if the options list was not opened.
         // Also set the scroll top
         if (!isFocus) {
@@ -185,6 +186,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         break
       }
       case UP_ARROW: {
+        event.preventDefault()
+
         // set the focus to true if the options list was not opened.
         if (!isFocus) {
           dispatch({ type: 'toggleFocus', isFocus: true })
@@ -273,7 +276,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         readOnly={!editable}
         onClick={inputClickHandler}
       />
-
       <div
         className={styles.comboBoxPopover}
         style={{
