@@ -133,6 +133,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }
 
   const keyHandler = (event: any) => {
+    event.preventDefault()
     const optionsContainerElement: any = optionsContainerRef.current
     const optionElement: any = optionRef.current
     let newFocusIndex = focusIndex
