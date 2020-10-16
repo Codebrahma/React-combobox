@@ -7,47 +7,10 @@ route: /demo
 
 The demo for the react-combo-box is given below.
 
-```
-import React from 'react'
-import ComboBox from 'react-responsive-combo-box'
-
-const App = () => {
-  const data = [
-    'America',
-    'India',
-    'Australia',
-    'Argentina',
-    'Ireland',
-    'Indonesia',
-    'Iceland',
-    'Japan',
-    'China',
-    'Afghanistan'
-  ]
-  return (
-    <div style={{ width: '500px', margin: '0 auto', textAlign: 'center' }}>
-      <h1>React Combo-box</h1>
-      <ComboBox
-        options={data}
-        placeholder='choose country'
-        defaultIndex={4}
-        optionsListMaxHeight={300}
-        style={{
-          width: '350px',
-          margin: '0 auto',
-          marginTop: '50px'
-        }}
-        focusColor='#20C374'
-        renderOptions={(option: string) => (
-          <div className='comboBoxOption'>{option}</div>
-        )}
-        onSelect={(option) => console.log(option)}
-        onChange={(event) => console.log(event.target.value)}
-        enableAutocomplete
-      />
-    </div>
-  )
-}
-
-export default App;
-```
+<iframe
+  src='https://codesandbox.io/embed/distracted-saha-k8kti?fontsize=14&hidenavigation=1&theme=dark'
+  style='width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;'
+  title='distracted-saha-k8kti'
+  allow='accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking'
+  sandbox='allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts'
+></iframe>
