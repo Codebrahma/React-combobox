@@ -302,7 +302,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
                   backgroundColor:
                     index === focusIndex
                       ? focusColor || 'rgba(155,155,155,0.15)'
-                      : 'white'
+                      : 'white',
+                  fontWeight: index === focusIndex ? 'bold' : 'normal'
                 }}
                 onClick={selectSuggestionHandler}
                 onMouseEnter={() =>
