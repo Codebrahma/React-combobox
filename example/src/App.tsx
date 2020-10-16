@@ -86,7 +86,7 @@ const App = () => {
           optionsListMaxHeight={300}
           style={{
             width: '350px',
-            marginTop: '380px'
+            marginTop: '50px'
           }}
           focusColor='#20C374'
           renderOptions={(option: string) => (
@@ -95,6 +95,7 @@ const App = () => {
           onSelect={(option) => setSelectedOption(option)}
           onOptionsChange={(option) => setHighlightedOption(option)}
           enableAutocomplete
+          onBlur={(event) => console.log(event?.target.value)}
         />
       </div>
     </div>

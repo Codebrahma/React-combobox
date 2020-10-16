@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useReducer } from 'react'
 
 import { initialState, focusReducer } from './reducer/focusReducer'
-import styles from './styles.css'
+import styles from './index.css'
 
 type ComboBoxProps = {
   options: string[]
@@ -18,6 +18,7 @@ type ComboBoxProps = {
   enableAutocomplete?: boolean
   inputStyles?: React.CSSProperties
   name?: string
+  onBlur?: (event?: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const UP_ARROW = 38
@@ -39,7 +40,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   focusColor,
   enableAutocomplete,
   inputStyles,
-  name
+  name,
+  onBlur
 }) => {
   const optionMaxHeight = optionsListMaxHeight || 200
   let suggestionListPositionStyles: React.CSSProperties = {}
@@ -95,8 +97,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     })
   }, [])
 
-  const blurHandler = () => {
+  const blurHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!isMouseInsideOptions) dispatch({ type: 'toggleFocus', isFocus: false })
+    if (onBlur) onBlur(event)
   }
 
   const updateValue = (index: number = focusIndex) => {
