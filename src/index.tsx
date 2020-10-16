@@ -16,6 +16,8 @@ type ComboBoxProps = {
   className?: string
   focusColor?: string
   enableAutocomplete?: boolean
+  inputStyles?: React.CSSProperties
+  name?: string
 }
 
 const UP_ARROW = 38
@@ -35,7 +37,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   style,
   className,
   focusColor,
-  enableAutocomplete
+  enableAutocomplete,
+  inputStyles,
+  name
 }) => {
   const optionMaxHeight = optionsListMaxHeight || 200
   let suggestionListPositionStyles: React.CSSProperties = {}
@@ -252,6 +256,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         value={inputValue}
         className={styles.comboBoxInput}
         onBlur={blurHandler}
+        name={name}
+        style={inputStyles}
       />
 
       <div
