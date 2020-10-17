@@ -22,7 +22,6 @@ import React, { useState } from 'react'
 import ComboBox from 'react-responsive-combo-box'
 import 'react-responsive-combo-box/dist/index.css'
 
-
 const App = () => {
   const options = [
     'America',
@@ -100,7 +99,6 @@ import React, { useState } from 'react'
 import ComboBox from 'react-responsive-combo-box'
 import 'react-responsive-combo-box/dist/index.css'
 
-
 const App = () => {
   const [selectedOption, setSelectedOption] = useState('')
   const options = [
@@ -158,6 +156,72 @@ const App = () => {
           <div style={{ padding: '10px' }}>This is {option}</div>
         )}
         enableAutocomplete
+      />
+    </div>
+  )
+}
+```
+
+### Example-5
+
+- This is example for the props - style and inputStyles
+
+```js
+import React, { useState } from 'react'
+import ComboBox from 'react-responsive-combo-box'
+import 'react-responsive-combo-box/dist/index.css'
+
+const App = () => {
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        style={{ width: '500px', margin: '30px' }}
+        inputStyles={{ border: '1px solid #333' }}
+      />
+    </div>
+  )
+}
+```
+
+### Example-6
+
+- This is example for the props - onBlur and editable
+
+```js
+import React, { useState } from 'react'
+import ComboBox from 'react-responsive-combo-box'
+import 'react-responsive-combo-box/dist/index.css'
+
+const App = () => {
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        editable={false}
+        onBlur={() => console.log('The component is blurred')}
       />
     </div>
   )

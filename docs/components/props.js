@@ -107,6 +107,43 @@ const Props = () => {
             <td>false </td>
             <td>Enables the autocomplete feature in the combo box.</td>
           </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-5'>style</a>
+            </td>
+            <td>CSS Properties</td>
+            <td />
+            <td>This prop is used to style the combo box.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-5'>inputStyles</a>
+            </td>
+            <td>CSS Properties</td>
+            <td />
+            <td>
+              This prop is used to style the input component in the combo box.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-6'>onBlur</a>
+            </td>
+            <td>Function</td>
+            <td />
+            <td>Invoked when the combo box is blurred.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-6'>Editable</a>
+            </td>
+            <td>Boolean</td>
+            <td>true</td>
+            <td>
+              You can make the combo-box as non-editable by setting this prop to
+              false.
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
