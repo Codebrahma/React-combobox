@@ -82,7 +82,7 @@ const App = () => {
         </p>
         <button
           onClick={() =>
-            setDefaultValue(data[Math.floor(Math.random() * 10) + 1])
+            setDefaultValue(data[Math.floor(Math.random() * 15) + 1])
           }
         >
           Click
@@ -90,7 +90,6 @@ const App = () => {
         <ComboBox
           options={data}
           placeholder='choose country'
-          defaultValue={defaultValue}
           optionsListMaxHeight={300}
           style={{
             width: '350px',
@@ -102,9 +101,8 @@ const App = () => {
           )}
           onSelect={(option) => setSelectedOption(option)}
           onOptionsChange={(option) => setHighlightedOption(option)}
-          enableAutocomplete
           onBlur={(event) => console.log(event?.target.value)}
-          editable={false}
+          defaultValue={defaultValue}
         />
         <ComboBox
           options={data}

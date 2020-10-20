@@ -62,10 +62,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const optionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setInputValue(defaultValue || '')
+    if (!isFocus) setInputValue(defaultValue || '')
     dispatch({
       type: 'setFocusIndex',
-      focusIndex: defaultValue ? options.indexOf(defaultValue) : -1
+      focusIndex: defaultValue ? options.indexOf(defaultValue.toString()) : -1
     })
   }, [defaultValue])
 
@@ -256,15 +256,24 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }
 
   const inputClickHandler = () => {
-    if (!isFocus) {
-      dispatch({ type: 'toggleFocus', isFocus: true })
-    }
+    dispatch({
+      type: 'setFocusIndex',
+      focusIndex: options.indexOf(inputValue.toString())
+    })
+  }
+
+  const focusHandler = () => {
+    const optionsContainerElement: any = optionsContainerRef.current
+    const optionElement: any = optionRef.current
+
+    optionsContainerElement.scrollTop = optionElement?.offsetTop
+    dispatch({ type: 'toggleFocus', isFocus: true })
   }
 
   return (
     <div className={styles.comboBox} style={style}>
       <input
-        onFocus={() => dispatch({ type: 'toggleFocus', isFocus: true })}
+        onFocus={focusHandler}
         onChange={inputChangeHandler}
         placeholder={placeholder || ''}
         onKeyDown={keyHandler}
