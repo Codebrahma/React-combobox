@@ -1,6 +1,6 @@
 {
   "name": "react-responsive-combo-box",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Easy and Responsive Combo-box",
   "author": "ashwinKumar0505",
   "license": "MIT",
@@ -78,5 +78,8 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "react-responsive-combo-box": "^1.1.5"
+  }
 }

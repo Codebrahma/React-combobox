@@ -62,6 +62,14 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const optionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    setInputValue(defaultValue || '')
+    dispatch({
+      type: 'setFocusIndex',
+      focusIndex: defaultValue ? options.indexOf(defaultValue) : -1
+    })
+  }, [defaultValue])
+
+  useEffect(() => {
     // Position the options container top or bottom based on the space available
     const optionsContainerElement: any = optionsContainerRef.current
 
@@ -90,14 +98,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
       top: '100%',
       marginTop: '5px'
     }
-
-  // Set the default index when the component is mounted
-  useEffect(() => {
-    dispatch({
-      type: 'setFocusIndex',
-      focusIndex: defaultValue ? options.indexOf(defaultValue) : -1
-    })
-  }, [])
 
   const blurHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!isMouseInsideOptions) dispatch({ type: 'toggleFocus', isFocus: false })

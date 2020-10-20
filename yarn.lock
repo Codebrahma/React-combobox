@@ -14688,6 +14688,11 @@ react-resize-detector@^4.2.1:
     raf-schd "^4.0.2"
     resize-observer-polyfill "^1.5.1"
 
+react-responsive-combo-box@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-responsive-combo-box/-/react-responsive-combo-box-1.1.5.tgz#f75ea2b8b48e82f06f38635932ea94bb5920d874"
+  integrity sha512-W5FTXymucFwHlnwHdtKzluGtx1wpS0avQ0x6UN7B8a+eGd0iE7Q74C0Re+1gnNZje79Fw7BZN2trdBxJqtdcdw==
+
 react-scripts@^3.4.1:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/react-scripts/-/react-scripts-3.4.3.tgz#21de5eb93de41ee92cd0b85b0e1298d0bb2e6c51"

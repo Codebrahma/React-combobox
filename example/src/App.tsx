@@ -11,6 +11,7 @@ import DocsLogo from './images/docs2.png'
 const App = () => {
   const [selectedOption, setSelectedOption] = useState('')
   const [highlightedOption, setHighlightedOption] = useState('')
+  const [defaultValue, setDefaultValue] = useState('India')
   const data = [
     'America',
     'India',
@@ -79,10 +80,35 @@ const App = () => {
             {highlightedOption.length > 0 ? highlightedOption : 'None'}
           </span>
         </p>
+        <button
+          onClick={() =>
+            setDefaultValue(data[Math.floor(Math.random() * 10) + 1])
+          }
+        >
+          Click
+        </button>
         <ComboBox
           options={data}
           placeholder='choose country'
-          defaultValue='Indi'
+          defaultValue={defaultValue}
+          optionsListMaxHeight={300}
+          style={{
+            width: '350px',
+            marginTop: '50px'
+          }}
+          focusColor='#20C374'
+          renderOptions={(option: string) => (
+            <div className='comboBoxOption'>{option}</div>
+          )}
+          onSelect={(option) => setSelectedOption(option)}
+          onOptionsChange={(option) => setHighlightedOption(option)}
+          enableAutocomplete
+          onBlur={(event) => console.log(event?.target.value)}
+          editable={false}
+        />
+        <ComboBox
+          options={data}
+          placeholder='choose country'
           optionsListMaxHeight={300}
           style={{
             width: '350px',
