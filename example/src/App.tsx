@@ -101,7 +101,7 @@ const App = () => {
           )}
           onSelect={(option) => setSelectedOption(option)}
           onOptionsChange={(option) => setHighlightedOption(option)}
-          onBlur={(event) => console.log(event?.target.value)}
+          onBlur={() => console.log('yeshh')}
           defaultValue={defaultValue}
         />
         <ComboBox
