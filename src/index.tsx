@@ -270,6 +270,11 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     dispatch({ type: 'toggleFocus', isFocus: true })
   }
 
+  const mouseEnterHandler = (index: number) => {
+    dispatch({ type: 'setFocusIndex', focusIndex: index })
+    if (onOptionsChange) onOptionsChange(options[index])
+  }
+
   return (
     <div className={styles.comboBox} style={style}>
       <input
@@ -318,9 +323,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
                   fontWeight: index === focusIndex ? 'bold' : 'normal'
                 }}
                 onClick={selectSuggestionHandler}
-                onMouseEnter={() =>
-                  dispatch({ type: 'setFocusIndex', focusIndex: index })
-                }
+                onMouseEnter={() => mouseEnterHandler(index)}
               >
                 {renderOptions ? renderOptions(option) : option}
               </div>
