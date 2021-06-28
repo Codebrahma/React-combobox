@@ -49,10 +49,39 @@ const Props = () => {
             </td>
             <td>String</td>
             <td />
+            <td>Class-name for options in the list.</td>
+          </tr>
+          <tr>
             <td>
-              Class-name for the component. Use this to style the component in
-              the css file.
+              <a href='/docs-props/#example-2'>inputClassName</a>
             </td>
+            <td>String</td>
+            <td />
+            <td>Class-name for the input element.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-2'>wrapperClassName</a>
+            </td>
+            <td>String</td>
+            <td />
+            <td>Class-name for the outermost wrapping div.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-2'>listClassName</a>
+            </td>
+            <td>String</td>
+            <td />
+            <td>Class-name for the list of options.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-2'>popoverClassName</a>
+            </td>
+            <td>String</td>
+            <td />
+            <td>Class-name for the popover.</td>
           </tr>
           <tr>
             <td>
