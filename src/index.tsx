@@ -14,6 +14,10 @@ type ComboBoxProps = {
   renderOptions?: (option: string) => React.ReactNode
   style?: React.CSSProperties
   className?: string
+  inputClassName?: string
+  wrapperClassName?: string
+  listClassName?: string
+  popoverClassName?: string
   focusColor?: string
   enableAutocomplete?: boolean
   inputStyles?: React.CSSProperties
@@ -38,6 +42,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   renderOptions,
   style,
   className,
+  inputClassName,
+  wrapperClassName,
+  listClassName,
+  popoverClassName,
   focusColor,
   enableAutocomplete,
   inputStyles,
@@ -280,14 +288,14 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }
 
   return (
-    <div className={styles.comboBox} style={style}>
+    <div className={wrapperClassName ?`${styles.comboBox} ${wrapperClassName}` : styles.comboBox} style={style}>
       <input
         onFocus={focusHandler}
         onChange={inputChangeHandler}
         placeholder={placeholder || ''}
         onKeyDown={keyHandler}
         value={inputValue}
-        className={styles.comboBoxInput}
+        className={inputClassName ? `${styles.comboBoxInput} ${inputClassName}` : styles.comboBoxInput}
         onBlur={blurHandler}
         name={name}
         style={{ ...inputStyles, cursor: editable ? 'text' : 'default' }}
@@ -295,7 +303,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         onClick={inputClickHandler}
       />
       <div
-        className={styles.comboBoxPopover}
+        className={popoverClassName ? `${styles.comboBoxPopover} ${popoverClassName}` : styles.comboBoxPopover}
         style={{
           opacity: isFocus ? 1 : 0,
           visibility: isFocus ? 'visible' : 'hidden',
@@ -306,7 +314,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         onMouseLeave={() => setIsMouseInsideOptions(false)}
       >
         <div
-          className={styles.comboBoxList}
+          className={listClassName ? `${styles.comboBoxList} ${listClassName}` : styles.comboBoxList}
           style={{ maxHeight: isFocus ? optionMaxHeight : 0 }}
         >
           {options.map((option, index) => {

@@ -48,7 +48,7 @@ const App = () => {
 
 ### Example-2
 
-- This is the example for props - className , style and focusColor.
+- This is the example for props - wrapperClassName, listClassname, popoverClassName, inputClassName, className , style and focusColor.
 
 ```css
 .Combo-box {
@@ -81,7 +81,11 @@ const App = () => {
     <div>
       <ComboBox
         options={options}
-        className='combo-box'
+        className='combo-box-option'
+        wrapperClassName='combo-box-wrapper'
+        inputClassName='combo-box-input'
+        popoverClassName='combo-box-popover'
+        listClassName='combo-box-list'
         style={{ margin: '10px' }}
         focusColor='teal'
       />
