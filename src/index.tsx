@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useReducer } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useReducer,
+  ReactElement
+} from 'react'
 
 import { initialState, focusReducer } from './reducer/focusReducer'
 import styles from './index.css'
@@ -26,6 +32,8 @@ type ComboBoxProps = {
   name?: string
   onBlur?: (event?: React.ChangeEvent<HTMLInputElement>) => void
   editable?: boolean
+  renderRightElement?: () => ReactElement
+  renderLeftElement?: () => ReactElement
 }
 
 const UP_ARROW = 38
@@ -54,7 +62,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   inputStyles,
   name,
   onBlur,
-  editable = true
+  editable = true,
+  renderRightElement,
+  renderLeftElement
 }) => {
   const optionMaxHeight = optionsListMaxHeight || 200
   let suggestionListPositionStyles: React.CSSProperties = {}
@@ -276,6 +286,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
       }
       style={style}
     >
+      {renderLeftElement && (
+        <div className={styles.leftElement}>{renderLeftElement()}</div>
+      )}
       <input
         onFocus={focusHandler}
         onChange={inputChangeHandler}
@@ -289,10 +302,17 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         }
         onBlur={blurHandler}
         name={name}
-        style={{ ...inputStyles, cursor: editable ? 'text' : 'default' }}
+        style={{
+          ...inputStyles,
+          cursor: editable ? 'text' : 'pointer',
+          paddingLeft: renderLeftElement ? 30 : 10
+        }}
         readOnly={!editable}
         onClick={inputClickHandler}
       />
+      {renderRightElement && (
+        <div className={styles.rightElement}>{renderRightElement()}</div>
+      )}
       <div
         className={
           popoverClassName

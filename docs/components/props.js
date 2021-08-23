@@ -181,6 +181,22 @@ const Props = () => {
               false.
             </td>
           </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-7'>renderLeftElement</a>
+            </td>
+            <td>Function</td>
+            <td />
+            <td>You can add left element for the combo-box</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-7'>renderRightElement</a>
+            </td>
+            <td>Function</td>
+            <td />
+            <td>You can add right element for the combo-box</td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -43,3 +43,19 @@
   font-weight: 600;
   font-size: 14px;
 }
+
+.rightElement {
+  position: absolute;
+  right: 0;
+  top: 55%;
+  transform: translate(0, -50%);
+  margin-right: 5px;
+}
+
+.leftElement {
+  position: absolute;
+  left: 0;
+  top: 55%;
+  transform: translate(0, -50%);
+  margin-left: 8px;
+}

@@ -232,3 +232,39 @@ const App = () => {
   )
 }
 ```
+
+### Example-7
+
+- This is example for the props - renderLeftElement and renderRightElement
+
+```js
+import React, { useState } from 'react'
+import ComboBox from 'react-responsive-combo-box'
+import 'react-responsive-combo-box/dist/index.css'
+import { AiFillCaretDown, AiFillFilter } from 'react-icons/ai'
+
+const App = () => {
+  const options = [
+    'America',
+    'India',
+    'Australia',
+    'Argentina',
+    'Ireland',
+    'Indonesia',
+    'Iceland',
+    'Japan'
+  ]
+
+  return (
+    <div>
+      <ComboBox
+        options={options}
+        renderRightElement={()=> <AiFillCaretDown /> }
+        renderLeftElement={()=> <AiFillFilter /> }
+
+      />
+    </div>
+  )
+}
+```
+

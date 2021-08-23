@@ -119,6 +119,12 @@ const App = () => {
           enableAutocomplete
           onBlur={(event) => console.log(event?.target.value)}
           editable={false}
+          renderRightElement={() => (
+            <img
+              src='https://img.icons8.com/material-outlined/24/000000/expand-arrow--v1.png'
+              alt='right'
+            />
+          )}
         />
       </div>
       <p style={{ marginTop: '800px' }}>Hello world</p>
