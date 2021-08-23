@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useReducer } from 'react'
 
 import { initialState, focusReducer } from './reducer/focusReducer'
 import styles from './index.css'
+import useScroll from './hooks/useScroll'
 
 type ComboBoxProps = {
   options: string[]
@@ -18,7 +19,8 @@ type ComboBoxProps = {
   wrapperClassName?: string
   listClassName?: string
   popoverClassName?: string
-  focusColor?: string
+  highlightColor?: string
+  selectedOptionColor?: string
   enableAutocomplete?: boolean
   inputStyles?: React.CSSProperties
   name?: string
@@ -46,7 +48,8 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   wrapperClassName,
   listClassName,
   popoverClassName,
-  focusColor,
+  highlightColor,
+  selectedOptionColor,
   enableAutocomplete,
   inputStyles,
   name,
@@ -65,9 +68,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const { isFocus, focusIndex } = state
   const [isMouseInsideOptions, setIsMouseInsideOptions] = useState(false) // This is used to determine whether the mouse cursor is inside or outside options container
   const [IsOptionsPositionedTop, setIsOptionsPositionedTop] = useState(false)
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(-1)
 
-  const optionsContainerRef = useRef<HTMLDivElement | null>(null)
-  const optionRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
+  const optionsListRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
     if (!isFocus) setInputValue(defaultValue || '')
@@ -77,9 +81,11 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     })
   }, [defaultValue])
 
+  useScroll(focusIndex, dropdownRef, optionsListRef)
+
   useEffect(() => {
     // Position the options container top or bottom based on the space available
-    const optionsContainerElement: any = optionsContainerRef.current
+    const optionsContainerElement: any = dropdownRef.current
 
     const offsetBottom =
       window.innerHeight -
@@ -134,6 +140,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const selectSuggestionHandler = () => {
     updateValue()
     dispatch({ type: 'toggleFocus', isFocus: false })
+    setSelectedOptionIndex(focusIndex)
     resetFocusIndex()
     setOptions(comboBoxOptions)
 
@@ -141,8 +148,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }
 
   const keyHandler = (event: any) => {
-    const optionsContainerElement: any = optionsContainerRef.current
-    const optionElement: any = optionRef.current
+    const optionsContainerElement: any = dropdownRef.current
     let newFocusIndex = focusIndex
 
     switch (event.keyCode) {
@@ -153,9 +159,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         // Also set the scroll top
         if (!isFocus) {
           dispatch({ type: 'toggleFocus', isFocus: true })
-          if (optionElement && optionsContainerElement)
-            optionsContainerElement.scrollTop =
-              optionElement.offsetTop - optionElement.offsetHeight
         } else {
           // If the focus reaches the end of the options in the list, set the focus to 0
 
@@ -166,22 +169,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
           // Change the scroll position based on the selected option position
           else {
             newFocusIndex = focusIndex + 1
-            if (optionElement && optionsContainerElement) {
-              const optionPosition =
-                optionElement.offsetTop + optionElement.offsetHeight
-
-              const optionsContainerPosition =
-                optionsContainerElement.clientHeight +
-                optionsContainerElement.scrollTop -
-                optionElement.offsetHeight
-
-              // Measured the option position with the suggestion height
-              // changed the scroll top if the option reached the end of the options container height
-
-              if (optionPosition >= optionsContainerPosition) {
-                optionsContainerElement.scrollTop += optionElement.offsetHeight
-              }
-            }
           }
         }
         dispatch({
@@ -190,7 +177,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         })
 
         if (onOptionsChange) onOptionsChange(options[newFocusIndex])
-        optionsContainerRef.current = optionsContainerElement
+        dropdownRef.current = optionsContainerElement
         break
       }
       case UP_ARROW: {
@@ -199,9 +186,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         // set the focus to true if the options list was not opened.
         if (!isFocus) {
           dispatch({ type: 'toggleFocus', isFocus: true })
-          if (optionElement && optionsContainerElement)
-            optionsContainerElement.scrollTop =
-              optionElement.offsetTop - optionElement.offsetHeight
         } else {
           // If the focus falls beyond the start of the options in the list, set the focus to height of the suggestion-list
           if (focusIndex <= 0) {
@@ -212,16 +196,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
                 optionsContainerElement.scrollHeight
           } else {
             newFocusIndex = focusIndex - 1
-
-            // Measured the option position with the suggestion height
-            // changed the scroll top if the option reached the start of the options container height
-            if (optionElement && optionsContainerElement) {
-              const optionPosition =
-                optionElement.offsetTop - optionElement.offsetHeight
-              if (optionPosition <= optionsContainerElement.scrollTop) {
-                optionsContainerElement.scrollTop -= optionElement.offsetHeight
-              }
-            }
           }
         }
         dispatch({
@@ -230,7 +204,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         })
 
         if (onOptionsChange) onOptionsChange(options[newFocusIndex])
-        optionsContainerRef.current = optionsContainerElement
+        dropdownRef.current = optionsContainerElement
         break
       }
       case ENTER_KEY: {
@@ -275,10 +249,6 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   }
 
   const focusHandler = () => {
-    const optionsContainerElement: any = optionsContainerRef.current
-    const optionElement: any = optionRef.current
-
-    optionsContainerElement.scrollTop = optionElement?.offsetTop
     dispatch({ type: 'toggleFocus', isFocus: true })
   }
 
@@ -287,15 +257,36 @@ const ComboBox: React.FC<ComboBoxProps> = ({
     if (onOptionsChange) onOptionsChange(options[index])
   }
 
+  const backgroundColorSelector = (optionIndex: number) => {
+    if (optionIndex === focusIndex && optionIndex === selectedOptionIndex)
+      return selectedOptionColor || '#63b3ed'
+    else if (optionIndex === focusIndex) {
+      return highlightColor || '#bee3f8'
+    } else if (optionIndex === selectedOptionIndex) {
+      return selectedOptionColor || '#63b3ed'
+    } else return 'white'
+  }
+
   return (
-    <div className={wrapperClassName ?`${styles.comboBox} ${wrapperClassName}` : styles.comboBox} style={style}>
+    <div
+      className={
+        wrapperClassName
+          ? `${styles.comboBox} ${wrapperClassName}`
+          : styles.comboBox
+      }
+      style={style}
+    >
       <input
         onFocus={focusHandler}
         onChange={inputChangeHandler}
         placeholder={placeholder || ''}
         onKeyDown={keyHandler}
         value={inputValue}
-        className={inputClassName ? `${styles.comboBoxInput} ${inputClassName}` : styles.comboBoxInput}
+        className={
+          inputClassName
+            ? `${styles.comboBoxInput} ${inputClassName}`
+            : styles.comboBoxInput
+        }
         onBlur={blurHandler}
         name={name}
         style={{ ...inputStyles, cursor: editable ? 'text' : 'default' }}
@@ -303,46 +294,50 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         onClick={inputClickHandler}
       />
       <div
-        className={popoverClassName ? `${styles.comboBoxPopover} ${popoverClassName}` : styles.comboBoxPopover}
+        className={
+          popoverClassName
+            ? `${styles.comboBoxPopover} ${popoverClassName}`
+            : styles.comboBoxPopover
+        }
         style={{
           opacity: isFocus ? 1 : 0,
           visibility: isFocus ? 'visible' : 'hidden',
+          maxHeight: isFocus ? optionMaxHeight : 0,
           ...suggestionListPositionStyles
         }}
-        ref={optionsContainerRef}
+        ref={dropdownRef}
         onMouseEnter={() => setIsMouseInsideOptions(true)}
         onMouseLeave={() => setIsMouseInsideOptions(false)}
       >
-        <div
-          className={listClassName ? `${styles.comboBoxList} ${listClassName}` : styles.comboBoxList}
-          style={{ maxHeight: isFocus ? optionMaxHeight : 0 }}
+        <ul
+          className={
+            listClassName
+              ? `${styles.comboBoxList} ${listClassName}`
+              : styles.comboBoxList
+          }
+          ref={optionsListRef}
         >
           {options.map((option, index) => {
             return (
-              <div
+              <li
                 className={
                   className
                     ? `${styles.comboBoxOption} ${className}`
                     : styles.comboBoxOption
                 }
                 key={option}
-                ref={index === focusIndex ? optionRef : null}
                 style={{
-                  backgroundColor:
-                    index === focusIndex
-                      ? focusColor || 'rgba(155,155,155,0.15)'
-                      : 'white',
-                  fontWeight: index === focusIndex ? 'bold' : 'normal'
+                  backgroundColor: backgroundColorSelector(index)
                 }}
                 onClick={() => selectSuggestionHandler()}
                 onMouseDown={(e) => e.preventDefault()}
                 onMouseEnter={() => mouseEnterHandler(index)}
               >
                 {renderOptions ? renderOptions(option) : option}
-              </div>
+              </li>
             )
           })}
-        </div>
+        </ul>
       </div>
     </div>
   )

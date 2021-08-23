@@ -95,7 +95,6 @@ const App = () => {
             width: '350px',
             marginTop: '50px'
           }}
-          focusColor='#20C374'
           renderOptions={(option: string) => (
             <div className='comboBoxOption'>{option}</div>
           )}
@@ -112,7 +111,6 @@ const App = () => {
             width: '350px',
             marginTop: '50px'
           }}
-          focusColor='#20C374'
           renderOptions={(option: string) => (
             <div className='comboBoxOption'>{option}</div>
           )}

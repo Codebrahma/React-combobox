@@ -26,11 +26,20 @@
 }
 
 .comboBoxList {
-  overflow: 'scroll';
+  margin: 0;
+  padding: 0;
+  padding-top: 5px;
+  text-align: center;
+  border-radius: 5px;
+  text-align: left;
+  overflow-y: auto;
 }
 
 .comboBoxOption {
-  text-align: left;
+  list-style-type: none;
+  padding: 6px 10px;
   cursor: pointer;
-  padding: .25rem .5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
 }
