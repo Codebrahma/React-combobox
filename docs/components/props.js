@@ -37,10 +37,18 @@ const Props = () => {
           </tr>
           <tr>
             <td>
-              <a href='/docs-props/#example-2'>focusColor</a>
+              <a href='/docs-props/#example-2'>highlightColor</a>
             </td>
             <td>String</td>
-            <td>#9b9b9b</td>
+            <td>#C6F6D5</td>
+            <td>Changes the highlighted colour of the selected option</td>
+          </tr>
+          <tr>
+            <td>
+              <a href='/docs-props/#example-2'>selectedOptionColor</a>
+            </td>
+            <td>String</td>
+            <td>#68D391</td>
             <td>Changes the highlighted colour of the selected option</td>
           </tr>
           <tr>
