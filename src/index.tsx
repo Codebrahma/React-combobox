@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, {
   useState,
   useRef,
@@ -89,6 +90,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({
       type: 'setFocusIndex',
       focusIndex: defaultValue ? options.indexOf(defaultValue.toString()) : -1
     })
+    setSelectedOptionIndex(
+      defaultValue ? options.indexOf(defaultValue.toString()) : -1
+    )
   }, [defaultValue])
 
   useScroll(focusIndex, dropdownRef, optionsListRef)
@@ -218,6 +222,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
         break
       }
       case ENTER_KEY: {
+        event.preventDefault()
         if (focusIndex > -1 && focusIndex < options.length)
           selectSuggestionHandler()
 
