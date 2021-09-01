@@ -85,6 +85,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   const optionsListRef = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
+    setOptions(comboBoxOptions)
+  }, [comboBoxOptions])
+
+  useEffect(() => {
     if (!isFocus) setInputValue(defaultValue || '')
     dispatch({
       type: 'setFocusIndex',
