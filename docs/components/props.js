@@ -57,7 +57,7 @@ const Props = () => {
             </td>
             <td>String</td>
             <td />
-            <td>Class-name for options in the list.</td>
+            <td>Class-name for combo-box.</td>
           </tr>
           <tr>
             <td>
@@ -69,11 +69,11 @@ const Props = () => {
           </tr>
           <tr>
             <td>
-              <a href='/docs-props/#example-2'>wrapperClassName</a>
+              <a href='/docs-props/#example-2'>optionsClassName</a>
             </td>
             <td>String</td>
             <td />
-            <td>Class-name for the outermost wrapping div.</td>
+            <td>Class-name for the combo-box options.</td>
           </tr>
           <tr>
             <td>

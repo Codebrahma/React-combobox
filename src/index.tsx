@@ -21,9 +21,9 @@ type ComboBoxProps = {
   optionsListMaxHeight?: number
   renderOptions?: (option: string) => React.ReactNode
   style?: React.CSSProperties
-  className?: string
+  optionsClassName?: string
   inputClassName?: string
-  wrapperClassName?: string
+  className?: string
   listClassName?: string
   popoverClassName?: string
   highlightColor?: string
@@ -52,10 +52,10 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   optionsListMaxHeight,
   renderOptions,
   style,
-  className,
   inputClassName,
-  wrapperClassName,
+  className,
   listClassName,
+  optionsClassName,
   popoverClassName,
   highlightColor,
   selectedOptionColor,
@@ -278,20 +278,18 @@ const ComboBox: React.FC<ComboBoxProps> = ({
 
   const backgroundColorSelector = (optionIndex: number) => {
     if (optionIndex === focusIndex && optionIndex === selectedOptionIndex)
-      return selectedOptionColor || '#63b3ed'
+      return { backgroundColor: selectedOptionColor || '#63b3ed' }
     else if (optionIndex === focusIndex) {
-      return highlightColor || '#bee3f8'
+      return { backgroundColor: highlightColor || '#bee3f8' }
     } else if (optionIndex === selectedOptionIndex) {
-      return selectedOptionColor || '#63b3ed'
-    } else return 'white'
+      return { backgroundColor: selectedOptionColor || '#63b3ed' }
+    } else return {}
   }
 
   return (
     <div
       className={
-        wrapperClassName
-          ? `${styles.comboBox} ${wrapperClassName}`
-          : styles.comboBox
+        className ? `${styles.comboBox} ${className}` : styles.comboBox
       }
       style={style}
     >
@@ -350,13 +348,13 @@ const ComboBox: React.FC<ComboBoxProps> = ({
             return (
               <li
                 className={
-                  className
-                    ? `${styles.comboBoxOption} ${className}`
+                  optionsClassName
+                    ? `${styles.comboBoxOption} ${optionsClassName}`
                     : styles.comboBoxOption
                 }
                 key={option}
                 style={{
-                  backgroundColor: backgroundColorSelector(index)
+                  ...backgroundColorSelector(index)
                 }}
                 onClick={() => selectSuggestionHandler()}
                 onMouseDown={(e) => e.preventDefault()}
