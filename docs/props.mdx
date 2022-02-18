@@ -89,6 +89,7 @@ const App = () => {
         style={{ margin: '10px' }}
         hightlighColor='#C6F6D5'
         selectedOptionColor='#68D391'
+        backgroundColor='#F0F0F0'
       />
     </div>
   )
@@ -259,12 +260,10 @@ const App = () => {
     <div>
       <ComboBox
         options={options}
-        renderRightElement={()=> <AiFillCaretDown /> }
-        renderLeftElement={()=> <AiFillFilter /> }
-
+        renderRightElement={() => <AiFillCaretDown />}
+        renderLeftElement={() => <AiFillFilter />}
       />
     </div>
   )
 }
 ```
-

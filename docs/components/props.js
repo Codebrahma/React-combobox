@@ -53,6 +53,14 @@ const Props = () => {
           </tr>
           <tr>
             <td>
+              <a href='/docs-props/#example-2'>backgroundColor</a>
+            </td>
+            <td>String</td>
+            <td>#F0F0F0</td>
+            <td>Changes the background colour of the options in the list</td>
+          </tr>
+          <tr>
+            <td>
               <a href='/docs-props/#example-2'>className</a>
             </td>
             <td>String</td>
