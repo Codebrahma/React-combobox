@@ -28,6 +28,7 @@ type ComboBoxProps = {
   popoverClassName?: string
   highlightColor?: string
   selectedOptionColor?: string
+  backgroundColor?: string
   enableAutocomplete?: boolean
   inputStyles?: React.CSSProperties
   name?: string
@@ -59,6 +60,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   popoverClassName,
   highlightColor,
   selectedOptionColor,
+  backgroundColor,
   enableAutocomplete,
   inputStyles,
   name,
@@ -283,7 +285,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({
       return highlightColor || '#bee3f8'
     } else if (optionIndex === selectedOptionIndex) {
       return selectedOptionColor || '#63b3ed'
-    } else return 'white'
+    } else return backgroundColor || 'white'
   }
 
   return (
